@@ -1,0 +1,16 @@
+{
+  "name": "express-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "barra",
+  "license": "GPL-3.0-only",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
