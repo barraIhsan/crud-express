@@ -1,0 +1,26 @@
+# Variable
+@url = localhost:3000
+
+### Get all books
+GET {{url}}/books
+
+### Create book
+POST {{url}}/books
+Content-Type: application/json
+
+{
+  "name": "test",
+  "author": "test"
+}
+
+### Get book by ID
+GET {{url}}/books/1757513011744
+
+### Update book by ID
+PUT {{url}}/books/1757513011744
+
+{
+  "name": "testing",
+  "author": "testing"
+}
+
