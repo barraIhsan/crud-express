@@ -1,6 +1,6 @@
 export const checkAllNotEmpty = (obj, item, res) => {
   for (const key in obj) {
-    if (typeof obj[key] == "string" && (!obj[key] || !obj[key].trim())) {
+    if (!obj[key] || (typeof obj[key] == "string" && !obj[key].trim())) {
       res.status(400).json({
         status: "fail",
         message: `${item} ${key} cannot be empty`,
