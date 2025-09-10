@@ -5,6 +5,10 @@ import {
   addBookHandler,
   getBookByIdHandler,
   updateBookByIdHandler,
+  getAllProductsHandler,
+  addProductHandler,
+  getProductByIdHandler,
+  updateProductByIdHandler,
 } from "./handler.js";
 
 // book route
@@ -12,5 +16,11 @@ router.get("/books", getAllBooksHandler);
 router.post("/books", addBookHandler);
 router.get("/books/:bookId", getBookByIdHandler);
 router.put("/books/:bookId", updateBookByIdHandler);
+
+// product route
+router.get("/products", getAllProductsHandler);
+router.post("/products", addProductHandler);
+router.get("/products/:productId", getProductByIdHandler);
+router.put("/products/:productId", updateProductByIdHandler);
 
 export default router;

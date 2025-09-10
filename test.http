@@ -24,3 +24,27 @@ PUT {{url}}/books/1757513011744
   "author": "testing"
 }
 
+### Get all products
+GET {{url}}/products
+
+### Create product
+POST {{url}}/products
+Content-Type: application/json
+
+{
+  "name": "test",
+  "deskripsi": "test",
+  "price": 123
+}
+
+### Get product by ID
+GET {{url}}/products/1757512651969
+
+### Update product by ID
+PUT {{url}}/products/1757512651969
+
+{
+  "name": "testing",
+  "deskripsi": "testing",
+  "price": 1234
+}

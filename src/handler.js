@@ -1,4 +1,4 @@
-import { books } from "./data.js";
+import { books, products } from "./data.js";
 import { checkAllNotEmpty, checkPrice } from "./validation.js";
 
 // book handler
@@ -83,6 +83,98 @@ export const deleteBookByIdHandler = (req, res) => {
 
   const index = books.indexOf(book);
   books.slice(index, 1);
+
+  res.status(200).json({
+    status: "success",
+  });
+};
+
+// product handler
+export const getAllProductsHandler = (_, res) => {
+  res.status(200).json({
+    status: "success",
+    data: products,
+  });
+};
+
+export const addProductHandler = (req, res) => {
+  const { name, deskripsi, price } = req.body;
+
+  if (!checkAllNotEmpty({ name, deskripsi }, "Product", res)) return;
+  if (!checkPrice(price, res)) return;
+
+  const id = Date.now();
+
+  const newProduct = { id, name, deskripsi, price };
+
+  products.push(newProduct);
+  res.status(201).json({
+    status: "success",
+    data: newProduct,
+  });
+};
+
+export const getProductByIdHandler = (req, res) => {
+  const { productId } = req.params;
+
+  const product = products.find((b) => b.id === Number(productId));
+
+  if (!product) {
+    res.status(404).json({
+      status: "No such product found",
+    });
+    return;
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: product,
+  });
+};
+
+export const updateProductByIdHandler = (req, res) => {
+  const { productId } = req.params;
+
+  const { name, deskripsi, price } = req.body;
+
+  if (!checkAllNotEmpty({ name, deskripsi }, "Product", res)) return;
+  if (!checkPrice(price, res)) return;
+
+  const product = products.find((b) => b.id === Number(productId));
+
+  if (!product) {
+    res.status(400).json({
+      status: "fail",
+      message: "No such product found",
+    });
+    return;
+  }
+
+  product.name = name;
+  product.deskripsi = deskripsi;
+  product.price = price;
+
+  res.status(200).json({
+    status: "success",
+    data: product,
+  });
+};
+
+export const deleteProductByIdHandler = (req, res) => {
+  const { productId } = req.params;
+
+  const product = products.find((b) => b.id === Number(productId));
+
+  if (!product) {
+    res.status(400).json({
+      status: "fail",
+      message: "No such product found",
+    });
+    return;
+  }
+
+  const index = products.indexOf(product);
+  products.slice(index, 1);
 
   res.status(200).json({
     status: "success",
