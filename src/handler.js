@@ -100,7 +100,7 @@ export const getAllProductsHandler = (_, res) => {
 export const addProductHandler = (req, res) => {
   const { name, deskripsi, price } = req.body;
 
-  if (!checkAllNotEmpty({ name, deskripsi }, "Product", res)) return;
+  if (!checkAllNotEmpty({ name, deskripsi, price }, "Product", res)) return;
   if (!checkPrice(price, res)) return;
 
   const id = Date.now();
@@ -137,7 +137,7 @@ export const updateProductByIdHandler = (req, res) => {
 
   const { name, deskripsi, price } = req.body;
 
-  if (!checkAllNotEmpty({ name, deskripsi }, "Product", res)) return;
+  if (!checkAllNotEmpty({ name, deskripsi, price }, "Product", res)) return;
   if (!checkPrice(price, res)) return;
 
   const product = products.find((b) => b.id === Number(productId));
