@@ -47,8 +47,6 @@ export const updateBookByIdHandler = (req, res) => {
   const { bookId } = req.params;
   const { name, author } = req.body;
 
-  if (!checkAllNotEmpty({ name, author }, "Book", res)) return;
-
   const book = books.find((b) => b.id === Number(bookId));
 
   if (!book) {
@@ -58,6 +56,8 @@ export const updateBookByIdHandler = (req, res) => {
     });
     return;
   }
+
+  if (!checkAllNotEmpty({ name, author }, "Book", res)) return;
 
   book.name = name;
   book.author = author;
@@ -137,9 +137,6 @@ export const updateProductByIdHandler = (req, res) => {
 
   const { name, deskripsi, price } = req.body;
 
-  if (!checkAllNotEmpty({ name, deskripsi, price }, "Product", res)) return;
-  if (!checkPrice(price, res)) return;
-
   const product = products.find((b) => b.id === Number(productId));
 
   if (!product) {
@@ -149,6 +146,9 @@ export const updateProductByIdHandler = (req, res) => {
     });
     return;
   }
+
+  if (!checkAllNotEmpty({ name, deskripsi, price }, "Product", res)) return;
+  if (!checkPrice(price, res)) return;
 
   product.name = name;
   product.deskripsi = deskripsi;
