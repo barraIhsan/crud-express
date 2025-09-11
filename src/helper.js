@@ -36,6 +36,7 @@ export const grabBody = (reqBody, typeMap, type, res) => {
         status: "fail",
         message: `${capitalize(type)} ${field.name} is required`,
       });
+      return;
     }
     const reqValue = reqBody[field.name];
 
