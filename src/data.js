@@ -1,5 +1,31 @@
-// books array
-export const books = [];
+export const items = {
+  books: [],
+  products: [],
+};
 
-// products array
-export const products = [];
+export const typeMap = {
+  books: [
+    {
+      name: "name",
+      type: "string",
+    },
+    {
+      name: "author",
+      type: "string",
+    },
+  ],
+  products: [
+    {
+      name: "name",
+      type: "string",
+    },
+    {
+      name: "deskripsi",
+      type: "string",
+    },
+    {
+      name: "price",
+      type: "number",
+    },
+  ],
+};

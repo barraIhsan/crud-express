@@ -1,180 +1,79 @@
-import { books, products } from "./data.js";
-import { checkAllNotEmpty, checkPrice } from "./validation.js";
+import { items, typeMap } from "./data.js";
+import { checkType, getItemById, grabBody } from "./helper.js";
 
-// book handler
-export const getAllBooksHandler = (_, res) => {
+export const getAllHandler = (req, res) => {
+  const { type } = req.params;
+
   res.status(200).json({
     status: "success",
-    data: books,
+    data: items[type],
   });
 };
 
-export const addBookHandler = (req, res) => {
-  const { name, author } = req.body;
+export const addHandler = (req, res) => {
+  const { type } = req.params;
 
-  if (!checkAllNotEmpty({ name, author }, "Book", res)) return;
+  if (!checkType(typeMap, type, res)) return;
 
-  const id = Date.now();
+  const data = grabBody(req.body, typeMap, type, res);
+  if (!data) return;
 
-  const newBook = { id, name, author };
+  const newData = { id: Date.now(), ...data };
+  items[type].push(newData);
 
-  books.push(newBook);
   res.status(201).json({
     status: "success",
-    data: newBook,
+    data: newData,
   });
 };
 
-export const getBookByIdHandler = (req, res) => {
-  const { bookId } = req.params;
+export const getByIdHandler = (req, res) => {
+  const { type, id } = req.params;
 
-  const book = books.find((b) => b.id === Number(bookId));
+  if (!checkType(typeMap, type, res)) return;
 
-  if (!book) {
-    res.status(404).json({
-      status: "No such book found",
-    });
-    return;
+  const item = getItemById(items[type], id, type, res);
+  if (!item) return;
+
+  res.status(200).json({
+    status: "success",
+    data: item,
+  });
+};
+
+export const updateByIdHandler = (req, res) => {
+  const { type, id } = req.params;
+
+  if (!checkType(typeMap, type, res)) return;
+
+  const item = getItemById(items[type], id, type, res);
+  if (!item) return;
+
+  const newItem = grabBody(req.body, typeMap, type, res);
+  if (!newItem) return;
+
+  const newData = { id: item.id, ...newItem };
+
+  for (const key in item) {
+    item[key] = newData[key];
   }
 
   res.status(200).json({
     status: "success",
-    data: book,
+    data: item,
   });
 };
 
-export const updateBookByIdHandler = (req, res) => {
-  const { bookId } = req.params;
-  const { name, author } = req.body;
+export const deleteByIdHandler = (req, res) => {
+  const { type, id } = req.params;
 
-  const book = books.find((b) => b.id === Number(bookId));
+  if (!checkType(typeMap, type, res)) return;
 
-  if (!book) {
-    res.status(400).json({
-      status: "fail",
-      message: "No such book found",
-    });
-    return;
-  }
+  const item = getItemById(items[type], id, type, res);
+  if (!item) return;
 
-  if (!checkAllNotEmpty({ name, author }, "Book", res)) return;
-
-  book.name = name;
-  book.author = author;
-
-  res.status(200).json({
-    status: "success",
-    data: book,
-  });
-};
-
-export const deleteBookByIdHandler = (req, res) => {
-  const { bookId } = req.params;
-
-  const book = books.find((b) => b.id === Number(bookId));
-
-  if (!book) {
-    res.status(400).json({
-      status: "fail",
-      message: "No such book found",
-    });
-    return;
-  }
-
-  const index = books.indexOf(book);
-  books.slice(index, 1);
-
-  res.status(200).json({
-    status: "success",
-  });
-};
-
-// product handler
-export const getAllProductsHandler = (_, res) => {
-  res.status(200).json({
-    status: "success",
-    data: products,
-  });
-};
-
-export const addProductHandler = (req, res) => {
-  const { name, deskripsi, price } = req.body;
-
-  if (!checkAllNotEmpty({ name, deskripsi, price }, "Product", res)) return;
-  if (!checkPrice(price, res)) return;
-
-  const id = Date.now();
-
-  const newProduct = { id, name, deskripsi, price };
-
-  products.push(newProduct);
-  res.status(201).json({
-    status: "success",
-    data: newProduct,
-  });
-};
-
-export const getProductByIdHandler = (req, res) => {
-  const { productId } = req.params;
-
-  const product = products.find((b) => b.id === Number(productId));
-
-  if (!product) {
-    res.status(404).json({
-      status: "No such product found",
-    });
-    return;
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: product,
-  });
-};
-
-export const updateProductByIdHandler = (req, res) => {
-  const { productId } = req.params;
-
-  const { name, deskripsi, price } = req.body;
-
-  const product = products.find((b) => b.id === Number(productId));
-
-  if (!product) {
-    res.status(400).json({
-      status: "fail",
-      message: "No such product found",
-    });
-    return;
-  }
-
-  if (!checkAllNotEmpty({ name, deskripsi, price }, "Product", res)) return;
-  if (!checkPrice(price, res)) return;
-
-  product.name = name;
-  product.deskripsi = deskripsi;
-  product.price = price;
-
-  res.status(200).json({
-    status: "success",
-    data: product,
-  });
-};
-
-export const deleteProductByIdHandler = (req, res) => {
-  const { productId } = req.params;
-
-  const product = products.find((b) => b.id === Number(productId));
-
-  if (!product) {
-    res.status(400).json({
-      status: "fail",
-      message: "No such product found",
-    });
-    return;
-  }
-
-  const index = products.indexOf(product);
-  products.slice(index, 1);
+  const index = items[type].indexOf(item);
+  items[type].splice(index, 1);
 
   res.status(200).json({
     status: "success",
