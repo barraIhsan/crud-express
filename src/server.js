@@ -1,12 +1,14 @@
 import express from "express";
-import router from "./routes.js";
+import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 // create server
 const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(router);
+app.use("/users", userRoutes);
+app.use("/products", productRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
