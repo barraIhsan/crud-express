@@ -13,9 +13,7 @@ export const checkUsernameUnique = async (pool, res, username) => {
 };
 
 export const checkEmailUnique = async (pool, res, email) => {
-  const [rows] = await pool.query("SELECT 1 FROM users WHERE username=?", [
-    email,
-  ]);
+  const [rows] = await pool.query("SELECT 1 FROM users WHERE email=?", [email]);
   if (rows.length == 1) {
     res.status(400).json({
       status: "fail",
