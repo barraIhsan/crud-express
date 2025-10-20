@@ -9,7 +9,7 @@ const loginSchema = z.object({
     .min(1, "Username atau Email wajib diisi")
     .refine(
       (val) => /\S+@\S+\.\S+/.test(val) || val.length >= 5,
-      "Masukkan username (min 5 karakter) atau email valid"
+      "Masukkan username (min 5 karakter) atau email valid",
     ),
   password: z
     .string()
@@ -34,7 +34,7 @@ function Login() {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200">
+      <div className="w-full flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Login ke Akun Anda
