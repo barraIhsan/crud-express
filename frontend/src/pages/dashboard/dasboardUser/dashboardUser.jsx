@@ -3,9 +3,12 @@ import { columns } from "@/pages/dashboard/dasboardUser/columsUser";
 import LayoutDashboard from "@/components/layout/layoutDashboard";
 import { getUsers } from "@/utils/api/users";
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import AddUser from "./addUser";
 
 export default function DashboardUser() {
   const [users, setUsers] = useState([]);
+  const [addUserPopup, setAddUserPopup] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -22,6 +25,13 @@ export default function DashboardUser() {
 
   return (
     <LayoutDashboard>
+      {addUserPopup && <AddUser setAddUserPopup={setAddUserPopup} />}
+      <Button
+        onClick={() => setAddUserPopup(true)}
+        className="cursor-pointer mb-4"
+      >
+        Add User
+      </Button>
       <DataTable columns={columns} data={users} />
     </LayoutDashboard>
   );
