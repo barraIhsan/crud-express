@@ -1,7 +1,10 @@
 import { pool } from "../config/db.js";
 import { ResponseError } from "../errors/responseError.js";
-import { userModel } from "../model/user.js";
-import { validateType } from "../validation/validateType.js";
+import {
+  createUserSchema,
+  updateUserSchema,
+} from "../validation/userValidation.js";
+import validate from "../validation/validate.js";
 
 export const getAllUser = async () => {
   const [users] = await pool.query(
@@ -25,6 +28,7 @@ export const getUserById = async (id) => {
 };
 
 export const createUser = async (req) => {
+  const validated = validate(createUserSchema, req);
   const {
     fullname,
     username,
@@ -34,9 +38,7 @@ export const createUser = async (req) => {
     address,
     phone_number,
     age,
-  } = req;
-
-  validateType(req, userModel);
+  } = validated;
 
   const [users] = await pool.query(
     `INSERT INTO users (fullname,username,email,password,role,address,phone_number,age)
@@ -57,6 +59,7 @@ export const createUser = async (req) => {
 };
 
 export const updateUserById = async (id, req) => {
+  const validated = validate(updateUserSchema, req);
   const {
     fullname,
     username,
@@ -66,7 +69,7 @@ export const updateUserById = async (id, req) => {
     address,
     phone_number,
     age,
-  } = req;
+  } = validated;
 
   const [users] = await pool.query(
     "UPDATE users SET fullname=?, username=?, email=?, password=?, role=?, address=?, phone_number=?, age=? WHERE id=?",
