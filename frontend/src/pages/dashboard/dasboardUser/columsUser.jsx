@@ -1,5 +1,5 @@
 import ActionCell from "./actionCell";
-export const columns = [
+export const columns = (onSuccess) => [
   {
     header: "No",
     accessorFn: (_, index) => index + 1,
@@ -22,6 +22,8 @@ export const columns = [
   },
   {
     header: "Aksi",
-    cell: ({ row }) => <ActionCell id={row.original.id} />,
+    cell: ({ row }) => (
+      <ActionCell id={row.original.id} onSuccess={onSuccess} />
+    ),
   },
 ];

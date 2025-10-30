@@ -13,13 +13,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useNavigate } from "react-router-dom";
 
-export default function ActionCell({ id }) {
+export default function ActionCell({ id, onSuccess }) {
   const navigate = useNavigate();
   const handleDeleteUser = async (id) => {
     try {
       await deleteUser(id);
       alert("Data User Berhasil Dihapus");
-      window.location.reload();
     } catch (error) {
       alert("Gagal Menghapus Data User" + error);
     }

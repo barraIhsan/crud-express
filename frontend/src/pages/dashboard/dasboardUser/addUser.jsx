@@ -29,7 +29,7 @@ const addUserSchema = z.object({
   role: z.enum(["user", "admin"]),
 });
 
-export default function AddUser({ setAddUserPopup }) {
+export default function AddUser({ setAddUserPopup, onSuccess }) {
   const form = useForm({
     resolver: zodResolver(addUserSchema),
     defaultValues: {
@@ -48,6 +48,7 @@ export default function AddUser({ setAddUserPopup }) {
     console.log(data);
     try {
       addUser(data);
+      onSuccess();
     } catch (err) {
       console.error("Error adding user:", err);
     }

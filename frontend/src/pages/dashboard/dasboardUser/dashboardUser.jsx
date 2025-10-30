@@ -25,14 +25,16 @@ export default function DashboardUser() {
 
   return (
     <LayoutDashboard>
-      {addUserPopup && <AddUser setAddUserPopup={setAddUserPopup} />}
+      {addUserPopup && (
+        <AddUser setAddUserPopup={setAddUserPopup} onSuccess={fetchUsers} />
+      )}
       <Button
         onClick={() => setAddUserPopup(true)}
         className="cursor-pointer mb-4"
       >
         Add User
       </Button>
-      <DataTable columns={columns} data={users} />
+      <DataTable columns={columns(fetchUsers)} data={users} />
     </LayoutDashboard>
   );
 }
