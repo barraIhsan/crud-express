@@ -11,11 +11,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import DetailUser from "./detailUser";
 
 export default function ActionCell({ id, onSuccess }) {
-  const navigate = useNavigate();
+  const [detailUserPopup, setDetailUserPopup] = useState(false);
+
   const handleDeleteUser = async (id) => {
     try {
       await deleteUser(id);
@@ -36,9 +38,13 @@ export default function ActionCell({ id, onSuccess }) {
   return (
     <div>
       {/* Button Info */}
-      <button onClick={() => navigate(`/dashboard/user/${id}`)}>
+      <button onClick={() => setDetailUserPopup(true)}>
         <Info size={20} className="cursor-pointer" />
       </button>
+      {detailUserPopup && (
+        <DetailUser id={id} setDetailUserPopup={setDetailUserPopup} />
+      )}
+
       {/* Button Edit */}
       <button onClick={() => console.log("Ini Button Edit")}>
         <Pencil size={20} />

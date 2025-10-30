@@ -2,11 +2,10 @@ import { getUserById } from "@/utils/api/users";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import LayoutDashboard from "@/components/layout/layoutDashboard";
+import { X } from "lucide-react";
 
-export default function DetailUser() {
+export default function DetailUser({ id, setDetailUserPopup }) {
   const [user, setUser] = useState();
-  const { id } = useParams();
 
   const fetchUserById = async (id) => {
     try {
@@ -33,18 +32,36 @@ export default function DetailUser() {
   ];
 
   return (
-    <LayoutDashboard>
-      <p className="text-xl font-semibold mb-4 ml-2">Detail User #{id}</p>
-      <Table className="w-fit text-lg">
-        <TableBody>
-          {rows.map(([label, value]) => (
-            <TableRow key={label}>
-              <TableCell className="font-medium w-60">{label}</TableCell>
-              <TableCell>{value}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </LayoutDashboard>
+    <div
+      className="fixed inset-0 bg-black/50 z-10 overflow-y-auto"
+      onClick={() => setDetailUserPopup(false)}
+    >
+      <div className="min-h-full flex justify-center items-center p-4">
+        <div
+          className="w-full sm:w-150 bg-white rounded-2xl p-8 space-y-5"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex justify-between">
+            <p className="text-xl font-bold">Detail User</p>
+            <button
+              className="cursor-pointer"
+              onClick={() => setDetailUserPopup(false)}
+            >
+              <X />
+            </button>
+          </div>
+          <Table className="text-lg p-10">
+            <TableBody>
+              {rows.map(([label, value]) => (
+                <TableRow key={label}>
+                  <TableCell className="font-medium">{label}</TableCell>
+                  <TableCell>{value}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    </div>
   );
 }
