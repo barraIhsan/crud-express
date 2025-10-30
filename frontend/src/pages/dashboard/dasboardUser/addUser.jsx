@@ -17,17 +17,15 @@ const addUserSchema = z.object({
     .string()
     .min(2, { message: "Nama Lengkap harus minimal 2 karakter" }),
   username: z.string().min(2, { message: "Username harus minimal 2 karakter" }),
-  password: z.string().min(2, { message: "Password harus minimal 2 karakter" }),
+  password: z.string().min(6, { message: "Password harus minimal 6 karakter" }),
   email: z.email({ message: "Format email tidak valid" }),
-  phone_number: z
-    .string()
-    .refine((val) => !isNaN(val), "Nomor telepon harus berupa angka")
-    .transform((val) => Number(val)),
+  phone_number: z.string().optional(),
   age: z
     .string()
     .refine((val) => !isNaN(val), "Umur harus berupa angka")
-    .transform((val) => Number(val)),
-  address: z.string().min(2, { message: "Alamat harus minimal 2 karakter" }),
+    .transform((val) => Number(val))
+    .optional(),
+  address: z.string().optional(),
   role: z.enum(["user", "admin"]),
 });
 

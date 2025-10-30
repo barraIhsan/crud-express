@@ -13,14 +13,8 @@ export const createUserSchema = z.object({
     .string("Password harus berupa string")
     .min(6, "Password minimal 6 karakter"),
   role: z.enum(["admin", "user"], "Role harus 'admin' atau 'user'"),
-  address: z
-    .string("Address harus berupa string")
-    .min(3, "Address minimal 3 karakter")
-    .optional(),
-  phone_number: z
-    .string("Phone number harus berupa string")
-    .min(3, "Phone number minimal 3 karakter")
-    .optional(),
+  address: z.string("Address harus berupa string").optional(),
+  phone_number: z.string("Phone number harus berupa string").optional(),
   age: z.number("Age harus berupa number").optional(),
 });
 
