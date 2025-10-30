@@ -12,15 +12,24 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function ActionCell({ id, onSuccess }) {
   const navigate = useNavigate();
   const handleDeleteUser = async (id) => {
     try {
       await deleteUser(id);
-      alert("Data User Berhasil Dihapus");
+      Swal.fire({
+        title: "Sukses",
+        text: "Sukses menghapus user",
+        icon: "success",
+      });
+      onSuccess();
     } catch (error) {
-      alert("Gagal Menghapus Data User" + error);
+      Swal.fire({
+        title: "Error",
+        text: "Gagal menghapus user: " + error,
+      });
     }
   };
 

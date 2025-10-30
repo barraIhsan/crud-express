@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { FormMessage } from "@/components/ui/form";
 import { addUser } from "@/utils/api/users";
 import { X } from "lucide-react";
+import Swal from "sweetalert2";
 
 const addUserSchema = z.object({
   fullname: z
@@ -45,12 +46,22 @@ export default function AddUser({ setAddUserPopup, onSuccess }) {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     try {
       addUser(data);
+      Swal.fire({
+        title: "Sukses",
+        text: "Sukses menambahkan user",
+        icon: "success",
+      });
       onSuccess();
+      setAddUserPopup(false);
     } catch (err) {
-      console.error("Error adding user:", err);
+      Swal.fire({
+        title: "Error",
+        text: "Gagal menambahkan user: ",
+        err,
+        icon: "error",
+      });
     }
   };
 
