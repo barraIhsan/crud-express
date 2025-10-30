@@ -28,3 +28,12 @@ export const addUser = async (data) => {
     throw error;
   }
 };
+
+export const getUserById = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/users/${id}`);
+    return response.data.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
