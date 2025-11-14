@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { pool } from "../config/db.js";
 import { ResponseError } from "../errors/responseError.js";
 import {
@@ -40,10 +41,21 @@ export const createUser = async (req) => {
     age,
   } = validated;
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const [users] = await pool.query(
     `INSERT INTO users (fullname,username,email,password,role,address,phone_number,age)
         VALUES (?,?,?,?,?,?,?,?)`,
-    [fullname, username, email, password, role, address, phone_number, age],
+    [
+      fullname,
+      username,
+      email,
+      hashedPassword,
+      role,
+      address,
+      phone_number,
+      age,
+    ],
   );
 
   return {
@@ -71,9 +83,21 @@ export const updateUserById = async (id, req) => {
     age,
   } = validated;
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const [users] = await pool.query(
     "UPDATE users SET fullname=?, username=?, email=?, password=?, role=?, address=?, phone_number=?, age=? WHERE id=?",
-    [fullname, username, email, password, role, address, phone_number, age, id],
+    [
+      fullname,
+      username,
+      email,
+      hashedPassword,
+      role,
+      address,
+      phone_number,
+      age,
+      id,
+    ],
   );
 
   if (users.affectedRows === 0) {
