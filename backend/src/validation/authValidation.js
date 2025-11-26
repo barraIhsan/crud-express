@@ -20,3 +20,10 @@ export const registerSchema = z.object({
   phone_number: z.string("Phone number harus berupa string").optional(),
   age: z.number("Age harus berupa number").optional(),
 });
+
+export const loginSchema = z.object({
+  email: z.email("Email tidak valid"),
+  password: z
+    .string("Password harus berupa string")
+    .min(6, "Password minimal 6 karakter"),
+});

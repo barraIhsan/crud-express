@@ -13,3 +13,16 @@ export const registerHandler = async (req, res, next) => {
     next(err);
   }
 };
+
+export const loginHandler = async (req, res, next) => {
+  try {
+    const response = await AuthService.login(req.body);
+
+    res.status(200).json({
+      status: "success",
+      data: response,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
